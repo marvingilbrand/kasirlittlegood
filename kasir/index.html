@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MARVINZ POS - Marvin Ganteng </title>
+    <link rel="stylesheet" href="./style.css?v=1.2">
+    <link rel="stylesheet" href="./dark-theme.css?v=1.2">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        // Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js').catch(err => console.error('PWA Error:', err));
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo"
+                style="flex-direction: column; align-items: center; text-align: center; gap: 12px; padding-bottom: 1.5rem;">
+                <div class="logo-icon" style="width: 60px; height: 60px; margin-bottom: 5px;">
+                    <i class="fa-solid fa-mug-hot" style="font-size: 1.8rem;"></i>
+                </div>
+                <div class="logo-info" style="align-items: center; gap: 2px;">
+                    <h2 style="font-size: 1.4rem; font-weight: 800; color: var(--primary-dark); margin: 0;">MARVINZ</h2>
+                    <span
+                        style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Point
+                        of Sale</span>
+
+                    <div class="header-controls"
+                        style="margin-top: 12px; display: flex; gap: 10px; justify-content: center; background: #f8f9fa; padding: 6px 12px; border-radius: 20px; border: 1px solid #eee;">
+                        <button id="lang-toggle" title="Ganti Bahasa (ID/EN)"
+                            style="color: var(--text-muted); background: none; border: none; cursor: pointer;">
+                            <i class="fa-solid fa-language"></i>
+                        </button>
+                        <button id="theme-toggle" title="Toggle Dark Mode"
+                            style="color: var(--text-muted); background: none; border: none; cursor: pointer;">
+                            <i class="fa-solid fa-moon"></i>
+                        </button>
+                        <div id="admin-toggle-btn" class="role-badge" title="Switch Role"
+                            style="cursor: pointer; color: var(--text-muted);">
+                            <i class="fa-solid fa-lock" id="admin-lock-icon"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <nav>
+                <button class="nav-item active" data-category="all">
+                    <i class="fa-solid fa-border-all"></i> <span data-i18n="nav_all">Semua Menu</span>
+                </button>
+                <button class="nav-item" data-category="signature">
+                    <i class="fa-solid fa-star"></i> <span>Signature</span>
+                </button>
+                <button class="nav-item" data-category="coffee">
+                    <i class="fa-solid fa-mug-hot"></i> <span>Coffee</span>
+                </button>
+                <button class="nav-item" data-category="non-coffee">
+                    <i class="fa-solid fa-glass-water"></i> <span>Non Coffee</span>
+                </button>
+                <button class="nav-item" data-category="tea">
+                    <i class="fa-solid fa-leaf"></i> <span>Tea</span>
+                </button>
+                <button class="nav-item" data-category="main-course">
+                    <i class="fa-solid fa-bowl-food"></i> <span>Main Course</span>
+                </button>
+                <button class="nav-item" data-category="toast">
+                    <i class="fa-solid fa-bread-slice"></i> <span>Toast</span>
+                </button>
+                <button class="nav-item" data-category="snack">
+                    <i class="fa-solid fa-burger"></i> <span>Snack</span>
+                </button>
+            </nav>
+            <div class="sidebar-footer">
+                <div style="position: relative;">
+                    <button class="settings-btn" id="more-actions-trigger"
+                        style="width: 100%; justify-content: center; font-weight: 600;">
+                        <i class="fa-solid fa-sliders"></i> <span data-i18n="btn_manage">Kelola Toko</span>
+                    </button>
+
+                    <div id="more-actions-menu" class="action-menu hidden">
+                        <button class="action-item admin-only hidden" id="add-product-btn-trigger">
+                            <div class="icon-box"><i class="fa-solid fa-plus-circle"></i></div>
+                            <span>Tambah Menu</span>
+                        </button>
+                        <button class="action-item admin-only hidden" id="history-btn">
+                            <div class="icon-box"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                            <span>Riwayat</span>
+                        </button>
+                        <button class="action-item" id="btn-split-bill">
+                            <div class="icon-box"><i class="fa-solid fa-calculator"></i></div>
+                            <span>Split Bill</span>
+                        </button>
+                        <button class="action-item admin-only hidden" id="edit-mode-btn">
+                            <div class="icon-box"><i class="fa-solid fa-pen-to-square"></i></div>
+                            <span>Edit Menu</span>
+                        </button>
+                        <button class="action-item admin-only hidden" id="download-report-btn">
+                            <div class="icon-box"><i class="fa-solid fa-file-csv"></i></div>
+                            <span>Laporan (CSV)</span>
+                        </button>
+                    </div>
+                </div>
+
+
+
+                <div class="cashier-section" style="margin-top: 5px; border-top: 1px solid #eee; padding-top: 15px;">
+                    <label
+                        style="display:block; margin-bottom:0.5rem; color: var(--text-muted); font-size:0.8rem; font-weight: 500;"
+                        data-i18n="lbl_cashier">Kasir
+                        Aktif</label>
+                    <div style="display: flex; gap: 5px;">
+                        <select id="cashier-select" style="flex:1; padding: 0.5rem; border: 1px solid #ddd; 
+                                 background: white; color: var(--text-main); border-radius: 4px; font-size: 0.9rem;">
+                            <option value="">-- Pilih --</option>
+                        </select>
+                        <button id="add-cashier-btn"
+                            style="background: var(--success); color: white; border: none; padding: 0 10px; border-radius: 4px; cursor: pointer;"
+                            title="Tambah Kasir">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                        <button id="delete-cashier-btn"
+                            style="background: var(--error); color: white; border: none; padding: 0 10px; border-radius: 4px; cursor: pointer;"
+                            title="Hapus Kasir">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header>
+                <div class="header-welcome">
+                    <h1 data-i18n="header_kasir">Kasir</h1>
+                    <p class="date-display" id="date-display">...</p>
+                </div>
+                <div class="search-bar">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" id="search-input" placeholder="Cari menu favorit..."
+                        data-i18n-placeholder="search_placeholder">
+                </div>
+            </header>
+
+            <div class="menu-grid" id="menu-container">
+                <!-- Products injected here -->
+            </div>
+        </main>
+
+        <!-- Cart Section -->
+        <aside class="cart-panel">
+            <div class="cart-header">
+                <h3 data-i18n="cart_title">Order Details</h3>
+                <span class="order-id">#ORD-001</span>
+            </div>
+
+            <div class="cart-items" id="cart-items">
+                <!-- Cart Items injected here -->
+            </div>
+
+            <div class="cart-summary">
+                <div class="summary-row">
+                    <span data-i18n="cart_subtotal">Subtotal</span>
+                    <span id="subtotal">Rp 0</span>
+                </div>
+                <div class="summary-total">
+                    <span data-i18n="cart_total">Total</span>
+                    <span id="total">Rp 0</span>
+                </div>
+                <button id="checkout-btn" class="checkout-btn" disabled>
+                    <span data-i18n="btn_process">Proses Pembayaran</span> <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- Receipt Modal -->
+    <div id="receipt-modal" class="modal hidden">
+        <div class="modal-content" style="max-width: 350px;">
+            <div class="modal-header">
+                <h2>Struk Pembayaran</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body" id="receipt-body" style="font-family: monospace; padding: 1rem;">
+                <!-- Receipt Content -->
+            </div>
+            <div class="modal-footer no-print">
+                <button class="process-btn" onclick="window.print()">
+                    <i class="fa-solid fa-print"></i> Cetak Struk
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Split Bill Modal -->
+    <div id="split-bill-modal" class="modal hidden">
+        <div class="modal-content glass-effect" style="max-width: 400px;">
+            <div class="modal-header">
+                <h2>Pilih Item (Split Bill)</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 0.9rem; color: #666; margin-bottom: 1rem;">Centang item yang ingin dibayar
+                    sekarang:</p>
+                <div id="split-bill-list" style="max-height: 300px; overflow-y: auto; margin-bottom: 1rem;">
+                    <!-- Items injected here -->
+                </div>
+                <div
+                    style="background: #f8f9fa; padding: 1rem; border-radius: 8px; display: flex; justify-content: space-between; font-weight: bold; align-items: center;">
+                    <span>Total Dipilih:</span>
+                    <span id="split-total-display" style="color: var(--primary-color); font-size: 1.2rem;">Rp 0</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="process-btn" id="process-split-btn" disabled
+                    style="background: #6c757d; cursor: not-allowed;">
+                    Bayar Sebagian
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div id="checkout-modal" class="modal hidden">
+        <div class="modal-content glass-effect">
+            <div class="modal-header">
+                <h2>Konfirmasi Pembayaran</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="payment-summary">
+                    <p>Total Tagihan</p>
+                    <h1 id="modal-total">Rp 0</h1>
+                </div>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <label
+                        style="display:block; margin-bottom:0.5rem; color: var(--text-muted); font-weight: 600;">Kasir
+                        Bertugas</label>
+                    <select id="checkout-cashier-select"
+                        style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; background-color: #f8f9fa;">
+                        <!-- Populated by JS -->
+                    </select>
+                </div>
+
+                <!-- Discount Field -->
+                <div style="margin-bottom: 1.5rem;">
+                    <label for="checkout-discount-input"
+                        style="display:block; margin-bottom:0.5rem; color: var(--text-muted); font-weight: 600;">
+                        Diskon (%)
+                    </label>
+                    <div style="position: relative;">
+                        <input type="number" id="checkout-discount-input" min="0" max="100" value="0" placeholder="0"
+                            style="width: 100%; padding: 0.8rem; padding-right: 3rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; background-color: white;" />
+                        <span
+                            style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-weight: 600;">%</span>
+                    </div>
+                </div>
+
+                <div class="payment-methods">
+                    <h3>Metode Pembayaran</h3>
+                    <div class="methods-grid">
+                        <button class="method-card active">
+                            <i class="fa-solid fa-money-bill-wave"></i>
+                            <span>Tunai</span>
+                        </button>
+                        <button class="method-card">
+                            <i class="fa-solid fa-qrcode"></i>
+                            <span>QRIS</span>
+                        </button>
+                        <button class="method-card">
+                            <i class="fa-regular fa-credit-card"></i>
+                            <span>Kartu</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="cash-input-section" id="cash-section">
+                    <label>Uang Diterima</label>
+                    <div class="input-wrapper">
+                        <span>Rp</span>
+                        <input type="number" id="cash-input" placeholder="0">
+                    </div>
+                    <div class="quick-amounts">
+                        <button data-amount="exact">Uang Pas</button>
+                        <button data-amount="20000">20.000</button>
+                        <button data-amount="50000">50.000</button>
+                        <button data-amount="100000">100.000</button>
+                    </div>
+                    <div class="change-display">
+                        <span>Kembalian:</span>
+                        <span id="change-amount">Rp 0</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="display: flex; gap: 10px;">
+                <button class="process-btn secondary" id="pay-later-btn"
+                    style="background:#f59e0b; color:white; width: 40%">
+                    <i class="fa-solid fa-floppy-disk"></i> Bayar Nanti
+                </button>
+                <button class="process-btn" id="process-payment-btn">
+                    Bayar & Cetak Struk
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- History Modal -->
+    <div id="history-modal" class="modal hidden">
+        <div class="modal-content glass-effect" style="max-width: 600px;">
+            <div class="modal-header">
+                <h2>Riwayat Pesanan Hari Ini</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div
+                    style="background: var(--primary-color); color: white; padding: 1.5rem; border-radius: var(--radius-md); text-align: center; margin-bottom: 2rem;">
+                    <p style="margin: 0; opacity: 0.9;">Total Pendapatan Hari Ini</p>
+                    <h1 style="margin: 0.5rem 0 0; font-size: 2.5rem;" id="history-total-revenue">Rp 0</h1>
+                </div>
+
+                <div style="max-height: 400px; overflow-y: auto;">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="text-align: left; border-bottom: 2px solid #eee;">
+                                <th style="padding: 1rem;">Jam</th>
+                                <th style="padding: 1rem;">Order ID</th>
+                                <th style="padding: 1rem;">Kasir</th>
+                                <th style="padding: 1rem;">Total</th>
+                                <th style="padding: 1rem;">Metode</th>
+                                <th style="padding: 1rem;">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-list">
+                            <!-- History Items -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer" style="padding: 1rem; border-top: 1px solid #eee; text-align: right;">
+                <button class="process-btn" id="download-report-btn" style="width: auto; padding: 0.8rem 1.5rem;">
+                    <i class="fa-solid fa-file-export"></i> Download Laporan
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Product Modal -->
+    <div id="add-product-modal" class="modal hidden">
+        <div class="modal-content glass-effect">
+            <div class="modal-header">
+                <h2 id="modal-title">Tambah Menu Baru</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="edit-product-id">
+                <div class="input-group" style="margin-bottom: 1rem;">
+                    <label style="display:block; margin-bottom:0.5rem; font-weight:600;">Nama Produk</label>
+                    <input type="text" id="new-product-name"
+                        style="width:100%; padding:0.8rem; border:1px solid #ddd; border-radius:8px;"
+                        placeholder="Contoh: Kopi Susu Mantap">
+                </div>
+                <div class="input-group" style="margin-bottom: 1rem;">
+                    <label style="display:block; margin-bottom:0.5rem; font-weight:600;">Harga (Rp)</label>
+                    <input type="tel" id="new-product-price"
+                        style="width:100%; padding:0.8rem; border:1px solid #ddd; border-radius:8px;"
+                        placeholder="25000">
+                </div>
+                <div class="input-group" style="margin-bottom: 2rem;">
+                    <label style="display:block; margin-bottom:0.5rem; font-weight:600;">HPP (Harga Modal)</label>
+                    <input type="tel" id="new-product-hpp"
+                        style="width:100%; padding:0.8rem; border:1px solid #ddd; border-radius:8px;"
+                        placeholder="Harga Modal (Rp)">
+                    <small style="color:red; font-size:0.75rem;">*Hanya terlihat oleh Admin</small>
+                </div>
+                <div class="input-group" style="margin-bottom: 2rem;">
+                    <label style="display:block; margin-bottom:0.5rem; font-weight:600;">Kategori</label>
+                    <select id="new-product-category"
+                        style="width:100%; padding:0.8rem; border:1px solid #ddd; border-radius:8px;">
+                        <option value="signature">Signature</option>
+                        <option value="coffee">Coffee</option>
+                        <option value="non-coffee">Non Coffee</option>
+                        <option value="tea">Tea</option>
+                        <option value="main-course">Main Course</option>
+                        <option value="toast">Toast</option>
+                        <option value="snack">Snack</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer" style="display: flex; gap: 10px; justify-content: flex-end;">
+                <button id="delete-product-btn" class="d-none"
+                    style="background: var(--error); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer;">
+                    <i class="fa-solid fa-trash"></i> Hapus
+                </button>
+                <button class="process-btn" id="save-product-btn">
+                    Simpan Menu
+                </button>
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+    <!-- Payment Method Modal (For History Edit) -->
+    <div id="payment-method-modal" class="modal hidden">
+        <div class="modal-content glass-effect" style="max-width: 400px;">
+            <div class="modal-header">
+                <h2>Pilih Metode Pembayaran</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="edit-payment-order-id">
+                <div class="methods-grid" id="update-methods-grid">
+                    <button class="method-card" onclick="selectPaymentUpdateMethod('Tunai', this)">
+                        <i class="fa-solid fa-money-bill-wave"></i>
+                        <span>Tunai</span>
+                    </button>
+                    <button class="method-card" onclick="selectPaymentUpdateMethod('QRIS', this)">
+                        <i class="fa-solid fa-qrcode"></i>
+                        <span>QRIS</span>
+                    </button>
+                    <button class="method-card" onclick="selectPaymentUpdateMethod('Kartu', this)">
+                        <i class="fa-regular fa-credit-card"></i>
+                        <span>Kartu</span>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="process-btn" id="confirm-payment-update-btn" disabled style="background: #ccc;">
+                    <i class="fa-solid fa-check"></i> Simpan Perubahan
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Action Button -->
+    <button class="fab" id="fab-checkout" title="Quick Checkout (F2)">
+        <i class="fa-solid fa-bolt"></i>
+    </button>
+
+    <!-- Removed duplicate toast-container -->
+    <!-- Cashier Management Modal -->
+    <div id="cashier-modal" class="modal hidden">
+        <div class="modal-content glass-effect" style="max-width: 350px;">
+            <div class="modal-header">
+                <h2>Tambah Kasir Baru</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display:block; margin-bottom:0.5rem; color: var(--text-muted); font-weight: 600;">Nama
+                        Kasir</label>
+                    <input type="text" id="new-cashier-name" placeholder="Contoh: Marvin"
+                        style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; outline: none;">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="process-btn" id="save-cashier-btn">
+                    <i class="fa-solid fa-save"></i> Simpan
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./script.js?v=1.2"></script>
+</body>
+
+</html>

@@ -1,0 +1,229 @@
+/* Professional Dark Theme for Little Good POS */
+body.dark-mode {
+    --bg-body: #0f172a;
+    /* Deep Navy Black */
+    --bg-white: #1e293b;
+    /* Sleek Grey Blue */
+
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+
+    --primary-color: #38bdf8;
+    --primary-dark: #0ea5e9;
+    --primary-light: rgba(56, 189, 248, 0.1);
+
+    --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.5);
+
+    --success: #10b981;
+    --error: #ef4444;
+}
+
+/* Master Transitions */
+* {
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark-mode {
+    background-color: var(--bg-body) !important;
+    color: var(--text-main) !important;
+}
+
+/* Layout Elements */
+body.dark-mode .sidebar {
+    background: var(--bg-white) !important;
+    border-right: 1px solid #334155;
+}
+
+body.dark-mode .main-content {
+    background: var(--bg-body) !important;
+}
+
+body.dark-mode .cart-panel {
+    background: var(--bg-white) !important;
+    border-left: 1px solid #334155;
+}
+
+/* Header & Search */
+body.dark-mode header {
+    border-bottom: 1px solid #334155;
+}
+
+body.dark-mode .logo {
+    border-bottom: 1px solid #334155;
+}
+
+body.dark-mode .search-bar {
+    background: #1e293b !important;
+    border: 1px solid #334155 !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .search-bar input {
+    background: transparent !important;
+    color: white !important;
+}
+
+body.dark-mode .search-bar input::placeholder {
+    color: #64748b;
+}
+
+body.dark-mode .date-display {
+    color: #94a3b8 !important;
+}
+
+/* Products */
+body.dark-mode .product-card {
+    background: #1e293b !important;
+    border: 1px solid #334155 !important;
+}
+
+body.dark-mode .product-card:hover {
+    border-color: var(--primary-color) !important;
+    background: #232f42 !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode .product-card h4 {
+    color: white;
+}
+
+body.dark-mode .product-card .price {
+    color: var(--primary-color);
+}
+
+/* Cart */
+body.dark-mode .cart-header {
+    border-bottom: 1px solid #334155;
+}
+
+body.dark-mode .cart-item {
+    background: transparent !important;
+    border-bottom: 1px solid #334155 !important;
+}
+
+body.dark-mode .cart-item h4 {
+    color: white;
+}
+
+body.dark-mode .cart-summary {
+    background: rgba(15, 23, 42, 0.9) !important;
+    /* Semi-transparent navy */
+    backdrop-filter: blur(12px) !important;
+    border-top: 1px solid #334155 !important;
+}
+
+body.dark-mode .summary-total {
+    border-top: 1px dashed #334155 !important;
+    color: white !important;
+}
+
+/* Sidebar Nav */
+body.dark-mode .nav-item {
+    color: #94a3b8;
+}
+
+body.dark-mode .nav-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+}
+
+body.dark-mode .nav-item.active {
+    background: var(--primary-color) !important;
+    color: #0f172a !important;
+    /* High contrast */
+    font-weight: 700;
+}
+
+/* Action Items & Menu */
+body.dark-mode .action-menu {
+    background: #1e293b !important;
+    border: 1px solid #334155 !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
+}
+
+body.dark-mode .action-item {
+    background: #0f172a !important;
+    border: 1px solid #334155 !important;
+    color: #f8fafc !important;
+}
+
+body.dark-mode .action-item:hover {
+    border-color: var(--primary-color) !important;
+    color: var(--primary-color) !important;
+}
+
+body.dark-mode .action-item.active {
+    background: var(--primary-light) !important;
+    border-color: var(--primary-color) !important;
+}
+
+body.dark-mode .action-item.active .icon-box {
+    background: var(--primary-color) !important;
+    color: #0f172a !important;
+}
+
+body.dark-mode #more-actions-trigger {
+    background: #1e293b !important;
+    border: 1px solid #334155 !important;
+    color: white !important;
+}
+
+body.dark-mode #more-actions-trigger:hover {
+    background: var(--primary-color) !important;
+    color: #0f172a !important;
+}
+
+/* Modals */
+body.dark-mode .modal-content {
+    background: #1e293b !important;
+    color: white !important;
+    border: 1px solid #334155;
+}
+
+body.dark-mode .modal-header {
+    border-bottom: 1px solid #334155;
+}
+
+body.dark-mode .modal-footer {
+    border-top: 1px solid #334155;
+}
+
+body.dark-mode input,
+body.dark-mode select {
+    background: #0f172a !important;
+    border: 1px solid #334155 !important;
+    color: white !important;
+}
+
+/* Scrollbars */
+body.dark-mode ::-webkit-scrollbar {
+    width: 6px;
+}
+
+body.dark-mode ::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+body.dark-mode ::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 10px;
+}
+
+body.dark-mode ::-webkit-scrollbar-thumb:hover {
+    background: #475569;
+}
+
+/* Cashier Section */
+body.dark-mode .cashier-section {
+    border-top: 1px solid #334155 !important;
+}
+
+body.dark-mode #cashier-select {
+    background: #0f172a;
+}
+
+body.dark-mode .order-id {
+    background: #334155 !important;
+    color: #38bdf8 !important;
+}
