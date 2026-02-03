@@ -866,7 +866,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const itemsHtml = cart.map(i => `<div style="display:flex; justify-content:space-between;"><span>${i.name} x${i.quantity}</span><span>${formatCurrency(i.price * i.quantity)}</span></div>`).join('');
             receiptBody.innerHTML = `
                 <div style="text-align:center; border-bottom:1px dashed #000; padding-bottom:1rem;">
-                    <h3>MARVINZ POS</h3><p>${new Date().toLocaleString('id-ID')}</p><p>Kasir: ${finalCashier}</p>
+                    <h3>LITTLE POS</h3><p>${new Date().toLocaleString('id-ID')}</p><p>Kasir: ${finalCashier}</p>
                 </div>
                 <div style="padding:1rem 0; border-bottom:1px dashed #000;">${itemsHtml}</div>
                 <div style="padding-top:1rem;">
