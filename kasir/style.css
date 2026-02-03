@@ -1184,32 +1184,9 @@ header {
 }
 
 /* ===== RESPONSIVE: MOBILE LANDSCAPE ===== */
-@media screen and (max-width: 768px) and (orientation: landscape) {
+@media screen and (max-width: 932px) and (orientation: landscape) {
     #app {
-        grid-template-columns: 60px 1fr;
-        /* Hide cart, sidebar minimal */
-    }
-
-    .cart-panel {
-        position: fixed;
-        right: -100%;
-        top: 0;
-        height: 100vh;
-        width: 300px;
-        z-index: 1000;
-        transition: right 0.3s ease;
-        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
-    }
-
-    .cart-panel.visible {
-        right: 0;
-    }
-
-    .sidebar nav,
-    .sidebar .logo-text,
-    .settings-btn span {
-        display: none;
-        /* Icon only */
+        grid-template-columns: 70px 1fr;
     }
 
     .sidebar {
@@ -1217,8 +1194,61 @@ header {
         align-items: center;
     }
 
+    .sidebar .logo,
+    .sidebar .logo-info,
+    .sidebar nav span,
+    .sidebar-footer span,
+    .cashier-section label {
+        display: none !important;
+    }
+
+    .logo-icon {
+        width: 35px;
+        height: 35px;
+        margin: 0 auto;
+    }
+
+    header {
+        margin-bottom: 1rem;
+        padding: 0.5rem 0;
+    }
+
+    .header-welcome h1 {
+        font-size: 1.2rem;
+    }
+
+    .search-bar {
+        width: 200px;
+        padding: 0.4rem 0.8rem;
+    }
+
     .menu-grid {
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 0.5rem;
+    }
+
+    .product-card {
+        height: 100px;
+        padding: 0.8rem;
+    }
+
+    .cart-panel {
+        position: fixed;
+        right: -100%;
+        top: 0;
+        height: 100vh;
+        width: 320px;
+        z-index: 1000;
+        transition: right 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+        box-shadow: -5px 0 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .cart-panel.visible {
+        right: 0;
+    }
+
+    .close-cart-btn {
+        display: block !important;
     }
 }
 
