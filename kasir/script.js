@@ -136,6 +136,7 @@ function toggleLanguage() {
 
 // === 2. DOM ELEMENTS ===
 const menuContainer = document.getElementById('menu-container');
+const cartPanel = document.getElementById('cart-panel');
 const cartContainer = document.getElementById('cart-items');
 const subtotalEl = document.getElementById('subtotal');
 const totalEl = document.getElementById('total');
@@ -397,6 +398,12 @@ function updateTotals(subtotal) {
     totalEl.textContent = formatCurrency(subtotal); // Before discount
 }
 
+function toggleCart() {
+    if (cartPanel) {
+        cartPanel.classList.toggle('visible');
+    }
+}
+
 // === 7. MODALS & CHECKOUT ===
 function openModal() {
     if (cart.length === 0) return;
@@ -630,6 +637,7 @@ function confirmPaymentUpdate() {
 
 // Global scope for onclick attribute handlers
 window.updateQuantity = updateQuantity;
+window.toggleCart = toggleCart;
 window.openPaymentEditModal = openPaymentEditModal;
 window.selectPaymentUpdateMethod = selectPaymentUpdateMethod;
 window.confirmPaymentUpdate = confirmPaymentUpdate;
@@ -1045,7 +1053,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // FAB
-    if (fabCheckout) fabCheckout.addEventListener('click', openModal);
+    if (fabCheckout) {
+        fabCheckout.addEventListener('click', () => {
+            // If in mobile/landscape mode where cart is hidden fixed, toggle cart first
+            if (window.innerWidth <= 932 && window.orientation === 90 || window.orientation === -90 || (window.innerWidth > window.innerHeight && window.innerWidth <= 932)) {
+                if (!cartPanel.classList.contains('visible') && cart.length > 0) {
+                    toggleCart();
+                    return;
+                }
+            }
+            openModal();
+        });
+    }
 
     // More Actions Outside Click
     if (moreActionsTrigger) moreActionsTrigger.addEventListener('click', (e) => { e.stopPropagation(); moreActionsMenu.classList.toggle('hidden'); });
