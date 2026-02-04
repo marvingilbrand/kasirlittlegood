@@ -1,5 +1,5 @@
 // Service Worker for Little Good POS
-const CACHE_NAME = 'little-good-pos-v13';
+const CACHE_NAME = 'little-good-pos-v14';
 const urlsToCache = [
     './',
     './index.html',
