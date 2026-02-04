@@ -1,14 +1,14 @@
 {
   "lang": "id",
-  "name": "MARVINZ POS",
-  "short_name": "MARVINZ",
-  "description": "Tempat Penjualan Profesional untuk MARVINZ",
-  "id": "marvinz-kasir-pos",
+  "name": "Little",
+  "short_name": "Little",
+  "description": "Tempat Penjualan Profesional - Little POS",
+  "id": "little-pos-app",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#0a0a0b",
   "theme_color": "#6366f1",
-  "orientation": "portrait",
+  "orientation": "any",
   "categories": [
     "business",
     "finance"
@@ -17,13 +17,13 @@
     {
       "src": "icon.png",
       "sizes": "512x512",
-      "type": "image/png",
+      "type": "image/jpeg",
       "purpose": "any"
     },
     {
       "src": "icon.png",
       "sizes": "512x512",
-      "type": "image/png",
+      "type": "image/jpeg",
       "purpose": "maskable"
     }
   ],
@@ -31,14 +31,14 @@
     {
       "src": "icon.png",
       "sizes": "512x512",
-      "type": "image/png",
+      "type": "image/jpeg",
       "form_factor": "narrow",
       "label": "Tampilan Utama"
     },
     {
       "src": "icon.png",
       "sizes": "512x512",
-      "type": "image/png",
+      "type": "image/jpeg",
       "form_factor": "wide",
       "label": "Tampilan Desktop"
     }
