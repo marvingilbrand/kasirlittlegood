@@ -20,6 +20,27 @@
                 navigator.serviceWorker.register('./sw.js').catch(err => console.error('PWA Error:', err));
             });
         }
+
+        // PWA Install Logic
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // e.preventDefault(); // Lepaskan ini agar Chrome bisa munculin bar otomatis
+            deferredPrompt = e;
+            const installBtn = document.getElementById('install-btn');
+            if (installBtn) installBtn.style.display = 'flex';
+        });
+
+        async function installApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    console.log('User accepted the install prompt');
+                    document.getElementById('install-btn').style.display = 'none';
+                }
+                deferredPrompt = null;
+            }
+        }
     </script>
 </head>
 
@@ -136,6 +157,13 @@
                         </button>
                     </div>
                 </div>
+
+                <!-- PWA Install Button -->
+                <button id="install-btn" onclick="installApp()" class="settings-btn"
+                    style="display: none; width: 100%; justify-content: center; background: var(--primary-color); color: white; margin-top: 10px; font-weight: 600;">
+                    <i class="fa-solid fa-download"></i>
+                    <span>Instal Aplikasi</span>
+                </button>
             </div>
         </aside>
 
